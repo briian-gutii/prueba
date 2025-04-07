@@ -1,9 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const Store = require('electron-store');
 
-// Inicializar almacenamiento
-const store = new Store();
+// Configuración para almacenamiento
+let settings = {};
 
 // Mantener una referencia global del objeto window
 let mainWindow;
@@ -57,7 +56,7 @@ ipcMain.handle('get-printers', async () => {
 // Imprimir contenido
 ipcMain.handle('print-content', async (event, options) => {
   const { content, printerName, silent = false } = options;
-  
+
   // Crear una ventana oculta para imprimir
   const printWindow = new BrowserWindow({
     show: false,
@@ -79,10 +78,10 @@ ipcMain.handle('print-content', async (event, options) => {
 
     // Imprimir
     const data = await printWindow.webContents.print(printOptions);
-    
+
     // Cerrar la ventana de impresión
     printWindow.close();
-    
+
     return { success: true, data };
   } catch (error) {
     printWindow.close();
@@ -91,12 +90,12 @@ ipcMain.handle('print-content', async (event, options) => {
 });
 
 // Guardar configuración
-ipcMain.handle('save-settings', async (event, settings) => {
-  store.set('settings', settings);
+ipcMain.handle('save-settings', async (event, newSettings) => {
+  settings = newSettings;
   return { success: true };
 });
 
 // Obtener configuración
 ipcMain.handle('get-settings', async () => {
-  return store.get('settings') || {};
+  return settings || {};
 });
