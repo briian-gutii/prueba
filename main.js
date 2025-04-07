@@ -13,8 +13,8 @@ function createWindow() {
     width: 1024,
     height: 768,
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
       preload: path.join(__dirname, 'preload.js')
     }
   });
@@ -50,7 +50,15 @@ app.on('window-all-closed', function () {
 
 // Obtener lista de impresoras
 ipcMain.handle('get-printers', async () => {
-  return mainWindow.webContents.getPrinters();
+  // En versiones recientes de Electron, getPrinters() está en el objeto app
+  if (app.getPrinters) {
+    return app.getPrinters();
+  } else if (mainWindow && mainWindow.webContents && mainWindow.webContents.getPrinters) {
+    return mainWindow.webContents.getPrinters();
+  } else {
+    // Si no se puede obtener la lista de impresoras, devolver una lista vacía
+    return [];
+  }
 });
 
 // Imprimir contenido
