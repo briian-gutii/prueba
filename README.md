@@ -1,4 +1,4 @@
-# Pruueba
+# Prueba
 
 Este es un repositorio de prueba creado con la ayuda de Augment Agent.
 
