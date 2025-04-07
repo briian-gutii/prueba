@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Impresión de Recibos y Facturas</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Sistema de Impresión de Recibos y Facturas</h1>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="receipt">Recibos</button>
+      <button class="tab-btn" data-tab="invoice">Facturas</button>
+      <button class="tab-btn" data-tab="settings">Configuración</button>
+    </div>
+
+    <div class="tab-content">
+      <!-- Pestaña de Recibos -->
+      <div id="receipt" class="tab-pane active">
+        <h2>Crear Recibo</h2>
+        <form id="receipt-form">
+          <div class="form-group">
+            <label for="receipt-number">Número de Recibo:</label>
+            <input type="text" id="receipt-number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="receipt-date">Fecha:</label>
+            <input type="date" id="receipt-date" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="receipt-customer">Cliente:</label>
+            <input type="text" id="receipt-customer" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="receipt-amount">Monto:</label>
+            <input type="number" id="receipt-amount" step="0.01" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="receipt-concept">Concepto:</label>
+            <textarea id="receipt-concept" rows="3" required></textarea>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="preview-receipt">Vista Previa</button>
+            <button type="button" id="print-receipt">Imprimir</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Pestaña de Facturas -->
+      <div id="invoice" class="tab-pane">
+        <h2>Crear Factura</h2>
+        <form id="invoice-form">
+          <div class="form-group">
+            <label for="invoice-number">Número de Factura:</label>
+            <input type="text" id="invoice-number" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="invoice-date">Fecha:</label>
+            <input type="date" id="invoice-date" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="invoice-customer">Cliente:</label>
+            <input type="text" id="invoice-customer" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="invoice-customer-id">ID/NIT del Cliente:</label>
+            <input type="text" id="invoice-customer-id">
+          </div>
+          
+          <h3>Productos</h3>
+          <div id="invoice-items">
+            <div class="invoice-item">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="item-description-1">Descripción:</label>
+                  <input type="text" id="item-description-1" class="item-description" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="item-quantity-1">Cantidad:</label>
+                  <input type="number" id="item-quantity-1" class="item-quantity" min="1" value="1" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="item-price-1">Precio Unitario:</label>
+                  <input type="number" id="item-price-1" class="item-price" step="0.01" required>
+                </div>
+                
+                <div class="form-group">
+                  <label for="item-total-1">Total:</label>
+                  <input type="number" id="item-total-1" class="item-total" step="0.01" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <button type="button" id="add-item">+ Agregar Producto</button>
+          
+          <div class="invoice-summary">
+            <div class="form-group">
+              <label for="invoice-subtotal">Subtotal:</label>
+              <input type="number" id="invoice-subtotal" step="0.01" readonly>
+            </div>
+            
+            <div class="form-group">
+              <label for="invoice-tax">Impuesto (%):</label>
+              <input type="number" id="invoice-tax" value="16" min="0" max="100">
+            </div>
+            
+            <div class="form-group">
+              <label for="invoice-total">Total:</label>
+              <input type="number" id="invoice-total" step="0.01" readonly>
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="preview-invoice">Vista Previa</button>
+            <button type="button" id="print-invoice">Imprimir</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Pestaña de Configuración -->
+      <div id="settings" class="tab-pane">
+        <h2>Configuración</h2>
+        <form id="settings-form">
+          <div class="form-group">
+            <label for="business-name">Nombre del Negocio:</label>
+            <input type="text" id="business-name">
+          </div>
+          
+          <div class="form-group">
+            <label for="business-address">Dirección:</label>
+            <textarea id="business-address" rows="2"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="business-phone">Teléfono:</label>
+            <input type="text" id="business-phone">
+          </div>
+          
+          <div class="form-group">
+            <label for="business-email">Email:</label>
+            <input type="email" id="business-email">
+          </div>
+          
+          <div class="form-group">
+            <label for="printer-select">Impresora:</label>
+            <select id="printer-select">
+              <option value="">Seleccionar impresora...</option>
+            </select>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" id="save-settings">Guardar Configuración</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal de Vista Previa -->
+    <div id="preview-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="preview-container"></div>
+        <div class="modal-actions">
+          <button id="modal-print">Imprimir</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "factura-impresora-app",
+  "version": "1.0.0",
+  "description": "Aplicación de escritorio para imprimir recibos y facturas",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package-win": "electron-packager . factura-impresora-app --platform=win32 --arch=x64 --out=dist/ --icon=assets/icon.ico --overwrite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/briian-gutii/prueba.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/briian-gutii/prueba/issues"
+  },
+  "homepage": "https://github.com/briian-gutii/prueba#readme",
+  "dependencies": {
+    "electron": "^35.1.4",
+    "electron-store": "^10.0.1"
+  },
+  "devDependencies": {
+    "electron-packager": "^17.1.2"
+  }
+}
